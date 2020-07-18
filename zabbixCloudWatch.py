@@ -37,6 +37,7 @@ def config_parser():
     parser.add_option("-p", "--period", dest="period", help="Period", metavar="PERIOD")
     parser.add_option("-f", "--starttime", dest="starttime", help="Start Time", metavar="STARTTIME")
     parser.add_option("-t", "--endtime", dest="endtime", help="End Time", metavar="ENDTIME")
+    parser.add_option("-c", "--test", dest="testcloudwatch", help="test cloudwatch, without zabbix", metavar="TEST")
     return parser
 
 # Covert dimensions string to json format
@@ -349,12 +350,15 @@ if __name__ == '__main__':
     aws_account = options.accountname
     aws_region = options.region
     aws_service = options.service
-    dimensions = dimConvert(options.dimensions)
+    dimensions = options.dimensions and dimConvert(options.dimensions)
     period = options.period
+    test_cloudwatch = options.testcloudwatch or False
 
     # Set global start time and end time in cloudwatch
-    start_time = datetime.strptime(options.starttime, "%Y-%m-%d %H:%M:%S")
-    end_time = datetime.strptime(options.endtime, "%Y-%m-%d %H:%M:%S")
+    start_time = options.starttime and datetime.strptime(options.starttime, "%Y-%m-%d %H:%M:%S")
+    end_time = options.endtime and datetime.strptime(options.endtime, "%Y-%m-%d %H:%M:%S")
+
+    print(aws_account, aws_region)
 
     if aws_service == 'DynamoDB':
         table_name = dimensions['TableName']
@@ -398,8 +402,12 @@ if __name__ == '__main__':
         # but should be more than the total number of monitoring items of the aws service in the host
         ##log_buffer = 500
 
-    # Send latest cloudwatch data with zabbix sender
-    sendLatestCloudWatchData(zabbix_server, zabbix_host, cw_data)
+    if not test_cloudwatch:
+        # Send latest cloudwatch data with zabbix sender
+        sendLatestCloudWatchData(zabbix_server, zabbix_host, cw_data)
+    else:
+        print(cw_data)
+
 
     # Send all cloudwatch data in a specified time window with zabbix sender
     #cw_log = initCloudWatchLog(aws_service, zabbix_host, aws_region)
