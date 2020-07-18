@@ -85,7 +85,7 @@ class pyZabbixSender:
             sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             sock.connect((self.zserver, self.zport))
             sock.send(data_to_send)
-        except Exception, err:
+        except Exception as err:
             err_message = u'Error talking to server: %s\n' %str(err)
             sys.stderr.write(err_message)
             return self.RC_ERR_CONN, err_message
@@ -175,9 +175,8 @@ class pyZabbixSender:
         None
         '''
         for elem in self.__data:
-            print str(elem)
-        print 'Count: %d' % len(self.__data)
-
+            print(str(elem))
+        print('Count: %d' % len(self.__data))
 
     def removeDataPoint(self, data_point):
         '''

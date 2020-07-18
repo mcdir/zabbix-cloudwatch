@@ -145,7 +145,7 @@ def getCloudWatchDynamodbData(a, r, s, t, i=None):
 
         return cloud_watch_data
 
-    except BotoServerError, error:
+    except BotoServerError as error:
         print >> sys.stderr, 'CloudWatch ERROR: ', error
 
 # Get cloudwatch metrics data of an AWS service
@@ -199,7 +199,7 @@ def getCloudWatchData(a, r, s, d):
 
         return cloud_watch_data
 
-    except BotoServerError, error:
+    except BotoServerError as error:
         print >> sys.stderr, 'CloudWatch ERROR: ', error
 
 # Send latest cloudwatch data to zabbix server
@@ -383,7 +383,7 @@ if __name__ == '__main__':
                 job_flow_id = cluster.id
 
         if job_flow_id is None:
-            print "EMR not found."
+            print("EMR not found.")
             exit(1)
 
         dimensions['JobFlowId'] = job_flow_id

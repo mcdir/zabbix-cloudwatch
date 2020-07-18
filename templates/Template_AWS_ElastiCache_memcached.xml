@@ -631,7 +631,7 @@
                     <snmp_community/>
                     <multiplier>0</multiplier>
                     <snmp_oid/>
-                    <key>ElastiCache.CurrConnections.Sum</key>
+                    <key>ElastiCache_memcached.CurrConnections.Sum</key>
                     <delay>0</delay>
                     <history>60</history>
                     <trends>365</trends>
@@ -674,7 +674,7 @@
                     <snmp_community/>
                     <multiplier>0</multiplier>
                     <snmp_oid/>
-                    <key>ElastiCache.CurrItems.Sum</key>
+                    <key>ElastiCache_memcached.CurrItems.Sum</key>
                     <delay>0</delay>
                     <history>60</history>
                     <trends>365</trends>
@@ -932,7 +932,7 @@
                     <snmp_community/>
                     <multiplier>1</multiplier>
                     <snmp_oid/>
-                    <key>ElastiCache.Evictions.Sum</key>
+                    <key>ElastiCache_memcached.Evictions.Sum</key>
                     <delay>0</delay>
                     <history>60</history>
                     <trends>365</trends>
@@ -1190,7 +1190,7 @@
                     <snmp_community/>
                     <multiplier>1</multiplier>
                     <snmp_oid/>
-                    <key>ElastiCache.NewConnections.Sum</key>
+                    <key>ElastiCache_memcached.NewConnections.Sum</key>
                     <delay>0</delay>
                     <history>60</history>
                     <trends>365</trends>
@@ -1276,7 +1276,7 @@
                     <snmp_community/>
                     <multiplier>1</multiplier>
                     <snmp_oid/>
-                    <key>ElastiCache.Reclaimed.Sum</key>
+                    <key>ElastiCache_memcached.Reclaimed.Sum</key>
                     <delay>0</delay>
                     <history>60</history>
                     <trends>365</trends>
@@ -1586,7 +1586,7 @@
                             <dynamic>0</dynamic>
                             <sort_triggers>0</sort_triggers>
                             <resource>
-                                <name>cache connections</name>
+                                <name>memcached cache connections</name>
                                 <host>Template AWS ElastiCache.memcached</host>
                             </resource>
                             <max_columns>3</max_columns>
@@ -1741,13 +1741,13 @@
 {Template AWS ElastiCache.memcached:ElastiCache.CmdConfigGet.Sum.last()}=0 and&#13;
 {Template AWS ElastiCache.memcached:ElastiCache.CmdConfigSet.Sum.last()}=0 and&#13;
 {Template AWS ElastiCache.memcached:ElastiCache.CurrConfig.Sum.last()}=0 and&#13;
-{Template AWS ElastiCache.memcached:ElastiCache.CurrConnections.Sum.last()}=0 and&#13;
+{Template AWS ElastiCache.memcached:ElastiCache_memcached.CurrConnections.Sum.last()}=0 and&#13;
 {Template AWS ElastiCache.memcached:ElastiCache.DecrHits.Sum.last()}=0 and&#13;
 {Template AWS ElastiCache.memcached:ElastiCache.DecrMisses.Sum.last()}=0 and&#13;
 {Template AWS ElastiCache.memcached:ElastiCache.DeleteHits.Sum.last()}=0 and&#13;
 {Template AWS ElastiCache.memcached:ElastiCache.DeleteMisses.Sum.last()}=0 and&#13;
 {Template AWS ElastiCache.memcached:ElastiCache.EvictedUnfetched.Sum.last()}=0 and&#13;
-{Template AWS ElastiCache.memcached:ElastiCache.Evictions.Sum.last()}=0 and&#13;
+{Template AWS ElastiCache.memcached:ElastiCache_memcached.Evictions.Sum.last()}=0 and&#13;
 {Template AWS ElastiCache.memcached:ElastiCache.ExpiredUnfetched.Sum.last()}=0 and&#13;
 {Template AWS ElastiCache.memcached:ElastiCache.CmdFlush.Sum.last()}=0 and&#13;
 {Template AWS ElastiCache.memcached:ElastiCache.CmdGet.Sum.last()}=0 and&#13;
@@ -1755,10 +1755,10 @@
 {Template AWS ElastiCache.memcached:ElastiCache.GetMisses.Sum.last()}=0 and&#13;
 {Template AWS ElastiCache.memcached:ElastiCache.IncrHits.Sum.last()}=0 and&#13;
 {Template AWS ElastiCache.memcached:ElastiCache.IncrMisses.Sum.last()}=0 and&#13;
-{Template AWS ElastiCache.memcached:ElastiCache.CurrItems.Sum.last()}=0 and&#13;
-{Template AWS ElastiCache.memcached:ElastiCache.NewConnections.Sum.last()}=0 and&#13;
+{Template AWS ElastiCache.memcached:ElastiCache_memcached.CurrItems.Sum.last()}=0 and&#13;
+{Template AWS ElastiCache.memcached:ElastiCache_memcached.NewConnections.Sum.last()}=0 and&#13;
 {Template AWS ElastiCache.memcached:ElastiCache.NewItems.Sum.last()}=0 and&#13;
-{Template AWS ElastiCache.memcached:ElastiCache.Reclaimed.Sum.last()}=0 and&#13;
+{Template AWS ElastiCache.memcached:ElastiCache_memcached.Reclaimed.Sum.last()}=0 and&#13;
 {Template AWS ElastiCache.memcached:ElastiCache.CmdSet.Sum.last()}=0 and&#13;
 {Template AWS ElastiCache.memcached:ElastiCache.SlabsMoved.Sum.last()}=0 and&#13;
 {Template AWS ElastiCache.memcached:ElastiCache.CmdTouch.Sum.last()}=0 and&#13;
@@ -1774,7 +1774,7 @@
             <dependencies/>
         </trigger>
         <trigger>
-            <expression>{Template AWS ElastiCache.memcached:ElastiCache.Evictions.Sum.min(#2)}&gt;0</expression>
+            <expression>{Template AWS ElastiCache.memcached:ElastiCache_memcached.Evictions.Sum.min(#2)}&gt;0</expression>
             <name>ElastiCache::Evictions detected::{ITEM.VALUE}</name>
             <url/>
             <status>1</status>
@@ -1794,13 +1794,13 @@
 {Template AWS ElastiCache.memcached:ElastiCache.CmdConfigGet.Sum.last()}=0 and&#13;
 {Template AWS ElastiCache.memcached:ElastiCache.CmdConfigSet.Sum.last()}=0 and&#13;
 {Template AWS ElastiCache.memcached:ElastiCache.CurrConfig.Sum.last()}=0 and&#13;
-{Template AWS ElastiCache.memcached:ElastiCache.CurrConnections.Sum.last()}=0 and&#13;
+{Template AWS ElastiCache.memcached:ElastiCache_memcached.CurrConnections.Sum.last()}=0 and&#13;
 {Template AWS ElastiCache.memcached:ElastiCache.DecrHits.Sum.last()}=0 and&#13;
 {Template AWS ElastiCache.memcached:ElastiCache.DecrMisses.Sum.last()}=0 and&#13;
 {Template AWS ElastiCache.memcached:ElastiCache.DeleteHits.Sum.last()}=0 and&#13;
 {Template AWS ElastiCache.memcached:ElastiCache.DeleteMisses.Sum.last()}=0 and&#13;
 {Template AWS ElastiCache.memcached:ElastiCache.EvictedUnfetched.Sum.last()}=0 and&#13;
-{Template AWS ElastiCache.memcached:ElastiCache.Evictions.Sum.last()}=0 and&#13;
+{Template AWS ElastiCache.memcached:ElastiCache_memcached.Evictions.Sum.last()}=0 and&#13;
 {Template AWS ElastiCache.memcached:ElastiCache.ExpiredUnfetched.Sum.last()}=0 and&#13;
 {Template AWS ElastiCache.memcached:ElastiCache.CmdFlush.Sum.last()}=0 and&#13;
 {Template AWS ElastiCache.memcached:ElastiCache.CmdGet.Sum.last()}=0 and&#13;
@@ -1808,10 +1808,10 @@
 {Template AWS ElastiCache.memcached:ElastiCache.GetMisses.Sum.last()}=0 and&#13;
 {Template AWS ElastiCache.memcached:ElastiCache.IncrHits.Sum.last()}=0 and&#13;
 {Template AWS ElastiCache.memcached:ElastiCache.IncrMisses.Sum.last()}=0 and&#13;
-{Template AWS ElastiCache.memcached:ElastiCache.CurrItems.Sum.last()}=0 and&#13;
-{Template AWS ElastiCache.memcached:ElastiCache.NewConnections.Sum.last()}=0 and&#13;
+{Template AWS ElastiCache.memcached:ElastiCache_memcached.CurrItems.Sum.last()}=0 and&#13;
+{Template AWS ElastiCache.memcached:ElastiCache_memcached.NewConnections.Sum.last()}=0 and&#13;
 {Template AWS ElastiCache.memcached:ElastiCache.NewItems.Sum.last()}=0 and&#13;
-{Template AWS ElastiCache.memcached:ElastiCache.Reclaimed.Sum.last()}=0 and&#13;
+{Template AWS ElastiCache.memcached:ElastiCache_memcached.Reclaimed.Sum.last()}=0 and&#13;
 {Template AWS ElastiCache.memcached:ElastiCache.CmdSet.Sum.last()}=0 and&#13;
 {Template AWS ElastiCache.memcached:ElastiCache.SlabsMoved.Sum.last()}=0 and&#13;
 {Template AWS ElastiCache.memcached:ElastiCache.CmdTouch.Sum.last()}=0 and&#13;
@@ -1842,13 +1842,13 @@
 {Template AWS ElastiCache.memcached:ElastiCache.CmdConfigGet.Sum.last()}=0 and&#13;
 {Template AWS ElastiCache.memcached:ElastiCache.CmdConfigSet.Sum.last()}=0 and&#13;
 {Template AWS ElastiCache.memcached:ElastiCache.CurrConfig.Sum.last()}=0 and&#13;
-{Template AWS ElastiCache.memcached:ElastiCache.CurrConnections.Sum.last()}=0 and&#13;
+{Template AWS ElastiCache.memcached:ElastiCache_memcached.CurrConnections.Sum.last()}=0 and&#13;
 {Template AWS ElastiCache.memcached:ElastiCache.DecrHits.Sum.last()}=0 and&#13;
 {Template AWS ElastiCache.memcached:ElastiCache.DecrMisses.Sum.last()}=0 and&#13;
 {Template AWS ElastiCache.memcached:ElastiCache.DeleteHits.Sum.last()}=0 and&#13;
 {Template AWS ElastiCache.memcached:ElastiCache.DeleteMisses.Sum.last()}=0 and&#13;
 {Template AWS ElastiCache.memcached:ElastiCache.EvictedUnfetched.Sum.last()}=0 and&#13;
-{Template AWS ElastiCache.memcached:ElastiCache.Evictions.Sum.last()}=0 and&#13;
+{Template AWS ElastiCache.memcached:ElastiCache_memcached.Evictions.Sum.last()}=0 and&#13;
 {Template AWS ElastiCache.memcached:ElastiCache.ExpiredUnfetched.Sum.last()}=0 and&#13;
 {Template AWS ElastiCache.memcached:ElastiCache.CmdFlush.Sum.last()}=0 and&#13;
 {Template AWS ElastiCache.memcached:ElastiCache.CmdGet.Sum.last()}=0 and&#13;
@@ -1856,10 +1856,10 @@
 {Template AWS ElastiCache.memcached:ElastiCache.GetMisses.Sum.last()}=0 and&#13;
 {Template AWS ElastiCache.memcached:ElastiCache.IncrHits.Sum.last()}=0 and&#13;
 {Template AWS ElastiCache.memcached:ElastiCache.IncrMisses.Sum.last()}=0 and&#13;
-{Template AWS ElastiCache.memcached:ElastiCache.CurrItems.Sum.last()}=0 and&#13;
-{Template AWS ElastiCache.memcached:ElastiCache.NewConnections.Sum.last()}=0 and&#13;
+{Template AWS ElastiCache.memcached:ElastiCache_memcached.CurrItems.Sum.last()}=0 and&#13;
+{Template AWS ElastiCache.memcached:ElastiCache_memcached.NewConnections.Sum.last()}=0 and&#13;
 {Template AWS ElastiCache.memcached:ElastiCache.NewItems.Sum.last()}=0 and&#13;
-{Template AWS ElastiCache.memcached:ElastiCache.Reclaimed.Sum.last()}=0 and&#13;
+{Template AWS ElastiCache.memcached:ElastiCache_memcached.Reclaimed.Sum.last()}=0 and&#13;
 {Template AWS ElastiCache.memcached:ElastiCache.CmdSet.Sum.last()}=0 and&#13;
 {Template AWS ElastiCache.memcached:ElastiCache.SlabsMoved.Sum.last()}=0 and&#13;
 {Template AWS ElastiCache.memcached:ElastiCache.CmdTouch.Sum.last()}=0 and&#13;
@@ -1928,7 +1928,7 @@
             </graph_items>
         </graph>
         <graph>
-            <name>cache connections</name>
+            <name>memcached cache connections</name>
             <width>900</width>
             <height>400</height>
             <yaxismin>0.0000</yaxismin>
@@ -1954,7 +1954,7 @@
                     <type>0</type>
                     <item>
                         <host>Template AWS ElastiCache.memcached</host>
-                        <key>ElastiCache.CurrConnections.Sum</key>
+                        <key>ElastiCache_memcached.CurrConnections.Sum</key>
                     </item>
                 </graph_item>
                 <graph_item>
@@ -1966,7 +1966,7 @@
                     <type>0</type>
                     <item>
                         <host>Template AWS ElastiCache.memcached</host>
-                        <key>ElastiCache.NewConnections.Sum</key>
+                        <key>ElastiCache_memcached.NewConnections.Sum</key>
                     </item>
                 </graph_item>
             </graph_items>
@@ -1998,7 +1998,7 @@
                     <type>0</type>
                     <item>
                         <host>Template AWS ElastiCache.memcached</host>
-                        <key>ElastiCache.CurrItems.Sum</key>
+                        <key>ElastiCache_memcached.CurrItems.Sum</key>
                     </item>
                 </graph_item>
                 <graph_item>

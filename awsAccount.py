@@ -5,6 +5,7 @@
 import os
 import ConfigParser
 
+
 class awsAccount:
     _aws_access_key_id = None 
     _aws_secret_access_key = None
@@ -23,7 +24,7 @@ class awsAccount:
            try:
                 dict[option] = Config.get(account, option)
                 if dict[option] == -1:
-                    DebugPrint("skip: %s" % option)
+                    print("skip: %s" % option)
            except:
                 print("exception on %s!" % option)
                 dict[option] = None

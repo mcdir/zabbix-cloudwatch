@@ -158,7 +158,7 @@
                     <snmp_community/>
                     <multiplier>0</multiplier>
                     <snmp_oid/>
-                    <key>ElastiCache.CurrConnections.Sum</key>
+                    <key>ElastiCache_redis.CurrConnections.Sum</key>
                     <delay>0</delay>
                     <history>60</history>
                     <trends>365</trends>
@@ -201,7 +201,7 @@
                     <snmp_community/>
                     <multiplier>0</multiplier>
                     <snmp_oid/>
-                    <key>ElastiCache.CurrItems.Sum</key>
+                    <key>ElastiCache_redis.CurrItems.Sum</key>
                     <delay>0</delay>
                     <history>60</history>
                     <trends>365</trends>
@@ -244,7 +244,7 @@
                     <snmp_community/>
                     <multiplier>1</multiplier>
                     <snmp_oid/>
-                    <key>ElastiCache.Evictions.Sum</key>
+                    <key>ElastiCache_redis.Evictions.Sum</key>
                     <delay>0</delay>
                     <history>60</history>
                     <trends>365</trends>
@@ -502,7 +502,7 @@
                     <snmp_community/>
                     <multiplier>1</multiplier>
                     <snmp_oid/>
-                    <key>ElastiCache.NewConnections.Sum</key>
+                    <key>ElastiCache_redis.NewConnections.Sum</key>
                     <delay>0</delay>
                     <history>60</history>
                     <trends>365</trends>
@@ -545,7 +545,7 @@
                     <snmp_community/>
                     <multiplier>1</multiplier>
                     <snmp_oid/>
-                    <key>ElastiCache.Reclaimed.Sum</key>
+                    <key>ElastiCache_redis.Reclaimed.Sum</key>
                     <delay>0</delay>
                     <history>60</history>
                     <trends>365</trends>
@@ -856,7 +856,7 @@ last(&quot;ElastiCache.GetTypeCmds.Sum&quot;)</params>
                             <dynamic>0</dynamic>
                             <sort_triggers>0</sort_triggers>
                             <resource>
-                                <name>cache request rates</name>
+                                <name>redis cache request rates</name>
                                 <host>Template AWS ElastiCache.redis</host>
                             </resource>
                             <max_columns>3</max_columns>
@@ -878,7 +878,7 @@ last(&quot;ElastiCache.GetTypeCmds.Sum&quot;)</params>
                             <dynamic>0</dynamic>
                             <sort_triggers>0</sort_triggers>
                             <resource>
-                                <name>cache connections</name>
+                                <name>redis cache connections</name>
                                 <host>Template AWS ElastiCache.redis</host>
                             </resource>
                             <max_columns>3</max_columns>
@@ -891,7 +891,7 @@ last(&quot;ElastiCache.GetTypeCmds.Sum&quot;)</params>
     </templates>
     <triggers>
         <trigger>
-            <expression>{Template AWS ElastiCache.redis:ElastiCache.Evictions.Sum.min(#2)}&gt;0</expression>
+            <expression>{Template AWS ElastiCache.redis:ElastiCache_redis.Evictions.Sum.min(#2)}&gt;0</expression>
             <name>ElastiCache::Evictions detected::{ITEM.VALUE}</name>
             <url/>
             <status>0</status>
@@ -913,7 +913,7 @@ last(&quot;ElastiCache.GetTypeCmds.Sum&quot;)</params>
     </triggers>
     <graphs>
         <graph>
-            <name>cache connections</name>
+            <name>redis cache connections</name>
             <width>900</width>
             <height>400</height>
             <yaxismin>0.0000</yaxismin>
@@ -939,7 +939,7 @@ last(&quot;ElastiCache.GetTypeCmds.Sum&quot;)</params>
                     <type>0</type>
                     <item>
                         <host>Template AWS ElastiCache.redis</host>
-                        <key>ElastiCache.CurrConnections.Sum</key>
+                        <key>ElastiCache_redis.CurrConnections.Sum</key>
                     </item>
                 </graph_item>
                 <graph_item>
@@ -951,7 +951,7 @@ last(&quot;ElastiCache.GetTypeCmds.Sum&quot;)</params>
                     <type>0</type>
                     <item>
                         <host>Template AWS ElastiCache.redis</host>
-                        <key>ElastiCache.NewConnections.Sum</key>
+                        <key>ElastiCache_redis.NewConnections.Sum</key>
                     </item>
                 </graph_item>
             </graph_items>
@@ -1001,7 +1001,7 @@ last(&quot;ElastiCache.GetTypeCmds.Sum&quot;)</params>
             </graph_items>
         </graph>
         <graph>
-            <name>cache request rates</name>
+            <name>redis cache request rates</name>
             <width>900</width>
             <height>400</height>
             <yaxismin>0.0000</yaxismin>
@@ -1027,7 +1027,7 @@ last(&quot;ElastiCache.GetTypeCmds.Sum&quot;)</params>
                     <type>0</type>
                     <item>
                         <host>Template AWS ElastiCache.redis</host>
-                        <key>ElastiCache.Evictions.Sum</key>
+                        <key>ElastiCache_redis.Evictions.Sum</key>
                     </item>
                 </graph_item>
                 <graph_item>
@@ -1099,7 +1099,7 @@ last(&quot;ElastiCache.GetTypeCmds.Sum&quot;)</params>
                     <type>0</type>
                     <item>
                         <host>Template AWS ElastiCache.redis</host>
-                        <key>ElastiCache.Reclaimed.Sum</key>
+                        <key>ElastiCache_redis.Reclaimed.Sum</key>
                     </item>
                 </graph_item>
                 <graph_item>
