@@ -8,7 +8,8 @@ AWS SDK in Python Boto - https://github.com/boto/boto
 # Installation
 Install boto on zabbix server via pip.
 ```
-pip install boto
+pip3 install -r requirements.txt 
+pip install -r requirements2.txt 
 ```
    
 Clone this repo to /opt/zabbix

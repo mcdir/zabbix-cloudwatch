@@ -2,14 +2,14 @@
 
 # Date:   08/08/2015
 # Author: Long Chen
-# Description: A script to bulk send ELB cloudwatch data to zabbix server
+# Description: A script to bulk send RDS cloudwatch data to zabbix server
 
 LIB_PATH=$(cd ../ && pwd)
 PATH=$PATH:/opt/zabbix/cloudwatch:${LIB_PATH}
 export PATH
 
-# Load Balancer Name
-LOAD_BALANCER=$1
+# DB instance indentifier
+DB_INSTANCE=$1
 # AWS Account
 ACCOUNT=$2
 # AWS Region
@@ -22,5 +22,4 @@ ENDTIME=$(date -u "+%F %H:%M:00" -d "5 minutes ago")
 STARTTIME=$(date -u "+%F %H:%M:00" -d "10 minutes ago")
 
 # Send cloudwatch data of a table to Zabbix Server
-echo "zabbixCloudWatch.py --test True -a \"$ACCOUNT\" -r \"$REGION\" -s ELB -d LoadBalancerName=\"$LOAD_BALANCER\" -p \"$PERIOD\" -f \"$STARTTIME\" -t \"$ENDTIME\""
-${LIB_PATH}/zabbixCloudWatch.py --test True -a "$ACCOUNT" -r "$REGION" -s "ELB" -d "LoadBalancerName=$LOAD_BALANCER" -p "$PERIOD" -f "$STARTTIME" -t "$ENDTIME"
+${LIB_PATH}/zabbixCloudWatch.py --test True -a "$ACCOUNT" -r "$REGION" -s "RDS" -d "DBInstanceIdentifier=$DB_INSTANCE" -p "$PERIOD" -f "$STARTTIME" -t "$ENDTIME"
