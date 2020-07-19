@@ -2,7 +2,7 @@
 
 # Date:   08/08/2015
 # Author: Long Chen
-# Description: A script to bulk send ELB cloudwatch data to zabbix server
+# Description: A script to bulk send ECS cloudwatch data to zabbix server
 
 PATH=$PATH:/opt/zabbix/cloudwatch/
 export PATH
