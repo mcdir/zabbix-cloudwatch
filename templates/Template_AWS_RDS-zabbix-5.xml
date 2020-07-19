@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>5.0</version>
-    <date>2020-07-19T20:19:30Z</date>
+    <date>2020-07-19T21:39:04Z</date>
     <groups>
         <group>
             <name>Templates</name>
@@ -340,6 +340,35 @@ The ReplicaLag metric reports the value of the Seconds_Behind_Master field of th
                     </applications>
                 </item>
             </items>
+            <discovery_rules>
+                <discovery_rule>
+                    <name>RDS db name discovery</name>
+                    <key>RDS.db_name.discovery</key>
+                    <delay>1h</delay>
+                    <item_prototypes>
+                        <item_prototype>
+                            <name>RDS.BinLogDiskUsage.Average  {#RDS_NAME}</name>
+                            <type>DEPENDENT</type>
+                            <key>RDS.BinLogDiskUsage.Average[{#RDS_NAME}]</key>
+                            <delay>0</delay>
+                            <applications>
+                                <application>
+                                    <name>RDS</name>
+                                </application>
+                            </applications>
+                            <master_item>
+                                <key>RDS.BinLogDiskUsage.Average</key>
+                            </master_item>
+                        </item_prototype>
+                    </item_prototypes>
+                    <lld_macro_paths>
+                        <lld_macro_path>
+                            <lld_macro>{#RDS_NAME}</lld_macro>
+                            <path>$.rds_name</path>
+                        </lld_macro_path>
+                    </lld_macro_paths>
+                </discovery_rule>
+            </discovery_rules>
             <macros>
                 <macro>
                     <macro>{$TH_P2_FREE_STORAGE}</macro>
