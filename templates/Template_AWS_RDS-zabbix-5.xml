@@ -1,0 +1,724 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zabbix_export>
+    <version>5.0</version>
+    <date>2020-07-19T20:19:30Z</date>
+    <groups>
+        <group>
+            <name>Templates</name>
+        </group>
+    </groups>
+    <templates>
+        <template>
+            <template>Template AWS RDS</template>
+            <name>Template AWS RDS</name>
+            <description>AWS RDS monitoring</description>
+            <groups>
+                <group>
+                    <name>Templates</name>
+                </group>
+            </groups>
+            <applications>
+                <application>
+                    <name>RDS</name>
+                </application>
+            </applications>
+            <items>
+                <item>
+                    <name>RDS::BinLogDiskUsage</name>
+                    <type>TRAP</type>
+                    <key>RDS.BinLogDiskUsage.Average</key>
+                    <delay>0</delay>
+                    <history>15d</history>
+                    <value_type>FLOAT</value_type>
+                    <units>B</units>
+                    <description>The amount of disk space occupied by binary logs on the master. Applies to MySQL read replicas.</description>
+                    <applications>
+                        <application>
+                            <name>RDS</name>
+                        </application>
+                    </applications>
+                </item>
+                <item>
+                    <name>RDS::CPUCreditBalance</name>
+                    <type>TRAP</type>
+                    <key>RDS.CPUCreditBalance.Minimum</key>
+                    <delay>0</delay>
+                    <history>15d</history>
+                    <value_type>FLOAT</value_type>
+                    <description>The number of CPU credits available for the instance to burst beyond its base CPU utilization.</description>
+                    <applications>
+                        <application>
+                            <name>RDS</name>
+                        </application>
+                    </applications>
+                </item>
+                <item>
+                    <name>RDS::CPUCreditUsage</name>
+                    <type>TRAP</type>
+                    <key>RDS.CPUCreditUsage.Minimum</key>
+                    <delay>0</delay>
+                    <history>15d</history>
+                    <value_type>FLOAT</value_type>
+                    <description>The number of CPU credits consumed by the instance.</description>
+                    <applications>
+                        <application>
+                            <name>RDS</name>
+                        </application>
+                    </applications>
+                </item>
+                <item>
+                    <name>RDS::CPUUtilization</name>
+                    <type>TRAP</type>
+                    <key>RDS.CPUUtilization.Average</key>
+                    <delay>0</delay>
+                    <history>15d</history>
+                    <value_type>FLOAT</value_type>
+                    <units>%</units>
+                    <description>The percentage of CPU utilization.</description>
+                    <applications>
+                        <application>
+                            <name>RDS</name>
+                        </application>
+                    </applications>
+                    <triggers>
+                        <trigger>
+                            <expression>{min(#3)}&gt;{$TH_P3_CPU_USAGE}</expression>
+                            <name>RDS::High CPU Usage (LV={ITEM.VALUE})</name>
+                            <priority>AVERAGE</priority>
+                        </trigger>
+                        <trigger>
+                            <expression>{min(#3)}&gt;{$TH_P4_CPU_USAGE} and {max(#3)}&lt;{$TH_P3_CPU_USAGE}</expression>
+                            <name>RDS::High CPU Usage (LV={ITEM.VALUE})</name>
+                            <priority>WARNING</priority>
+                        </trigger>
+                    </triggers>
+                </item>
+                <item>
+                    <name>RDS::DatabaseConnections</name>
+                    <type>TRAP</type>
+                    <key>RDS.DatabaseConnections.Average</key>
+                    <delay>0</delay>
+                    <history>15d</history>
+                    <value_type>FLOAT</value_type>
+                    <description>The number of database connections in use.</description>
+                    <applications>
+                        <application>
+                            <name>RDS</name>
+                        </application>
+                    </applications>
+                </item>
+                <item>
+                    <name>RDS::DiskQueueDepth</name>
+                    <type>TRAP</type>
+                    <key>RDS.DiskQueueDepth.Average</key>
+                    <delay>0</delay>
+                    <history>15d</history>
+                    <value_type>FLOAT</value_type>
+                    <description>The number of outstanding IOs (read/write requests) waiting to access the disk.</description>
+                    <applications>
+                        <application>
+                            <name>RDS</name>
+                        </application>
+                    </applications>
+                </item>
+                <item>
+                    <name>RDS::FreeableMemory</name>
+                    <type>TRAP</type>
+                    <key>RDS.FreeableMemory.Minimum</key>
+                    <delay>0</delay>
+                    <history>15d</history>
+                    <value_type>FLOAT</value_type>
+                    <units>B</units>
+                    <description>The amount of available random access memory.</description>
+                    <applications>
+                        <application>
+                            <name>RDS</name>
+                        </application>
+                    </applications>
+                </item>
+                <item>
+                    <name>RDS::FreeStorageSpace</name>
+                    <type>TRAP</type>
+                    <key>RDS.FreeStorageSpace.Minimum</key>
+                    <delay>0</delay>
+                    <history>15d</history>
+                    <value_type>FLOAT</value_type>
+                    <units>B</units>
+                    <description>The amount of available storage space.</description>
+                    <applications>
+                        <application>
+                            <name>RDS</name>
+                        </application>
+                    </applications>
+                    <triggers>
+                        <trigger>
+                            <expression>{last()}&lt;{$TH_P2_FREE_STORAGE}</expression>
+                            <name>RDS::Low free storage space (LV={ITEM.VALUE})</name>
+                            <priority>HIGH</priority>
+                        </trigger>
+                        <trigger>
+                            <expression>{last()}&lt;{$TH_P3_FREE_STORAGE} and {last()}&gt;{$TH_P2_FREE_STORAGE}</expression>
+                            <name>RDS::Low free storage space (LV={ITEM.VALUE})</name>
+                            <priority>AVERAGE</priority>
+                        </trigger>
+                    </triggers>
+                </item>
+                <item>
+                    <name>RDS::NetworkReceiveThroughput</name>
+                    <type>TRAP</type>
+                    <key>RDS.NetworkReceiveThroughput.Average</key>
+                    <delay>0</delay>
+                    <history>15d</history>
+                    <value_type>FLOAT</value_type>
+                    <units>B/s</units>
+                    <description>The incoming (Receive) network traffic on the DB instance, including both customer database traffic and Amazon RDS traffic used for monitoring and replication.</description>
+                    <applications>
+                        <application>
+                            <name>RDS</name>
+                        </application>
+                    </applications>
+                </item>
+                <item>
+                    <name>RDS::NetworkTransmitThroughput</name>
+                    <type>TRAP</type>
+                    <key>RDS.NetworkTransmitThroughput.Average</key>
+                    <delay>0</delay>
+                    <history>15d</history>
+                    <value_type>FLOAT</value_type>
+                    <units>B/s</units>
+                    <description>The outgoing (Transmit) network traffic on the DB instance, including both customer database traffic and Amazon RDS traffic used for monitoring and replication.</description>
+                    <applications>
+                        <application>
+                            <name>RDS</name>
+                        </application>
+                    </applications>
+                </item>
+                <item>
+                    <name>RDS::ReadIOPS</name>
+                    <type>TRAP</type>
+                    <key>RDS.ReadIOPS.Average</key>
+                    <delay>0</delay>
+                    <history>15d</history>
+                    <value_type>FLOAT</value_type>
+                    <units>ops/s</units>
+                    <description>The average number of disk I/O operations per second.</description>
+                    <applications>
+                        <application>
+                            <name>RDS</name>
+                        </application>
+                    </applications>
+                </item>
+                <item>
+                    <name>RDS::ReadLatency</name>
+                    <type>TRAP</type>
+                    <key>RDS.ReadLatency.Average</key>
+                    <delay>0</delay>
+                    <history>15d</history>
+                    <value_type>FLOAT</value_type>
+                    <units>s</units>
+                    <description>The average amount of time taken per disk I/O operation.</description>
+                    <applications>
+                        <application>
+                            <name>RDS</name>
+                        </application>
+                    </applications>
+                    <triggers>
+                        <trigger>
+                            <expression>{last()}&gt;{$TH_P2_LATENCY}</expression>
+                            <name>RDS::High Read Latency (LV={ITEM.VALUE})</name>
+                            <priority>HIGH</priority>
+                        </trigger>
+                        <trigger>
+                            <expression>{last()}&gt;{$TH_P3_LATENCY} and {last()}&lt;{$TH_P2_LATENCY}</expression>
+                            <name>RDS::High Read Latency (LV={ITEM.VALUE})</name>
+                            <priority>AVERAGE</priority>
+                        </trigger>
+                    </triggers>
+                </item>
+                <item>
+                    <name>RDS::ReadThroughput</name>
+                    <type>TRAP</type>
+                    <key>RDS.ReadThroughput.Average</key>
+                    <delay>0</delay>
+                    <history>15d</history>
+                    <value_type>FLOAT</value_type>
+                    <units>B/s</units>
+                    <description>The average number of bytes read from disk per second.</description>
+                    <applications>
+                        <application>
+                            <name>RDS</name>
+                        </application>
+                    </applications>
+                </item>
+                <item>
+                    <name>RDS::ReplicaLag</name>
+                    <type>TRAP</type>
+                    <key>RDS.ReplicaLag.Average</key>
+                    <delay>0</delay>
+                    <history>15d</history>
+                    <value_type>FLOAT</value_type>
+                    <units>s</units>
+                    <description>The amount of time a Read Replica DB Instance lags behind the source DB Instance. Applies to MySQL read replicas.&#13;
+&#13;
+The ReplicaLag metric reports the value of the Seconds_Behind_Master field of the MySQL SHOW SLAVE STATUS command.</description>
+                    <applications>
+                        <application>
+                            <name>RDS</name>
+                        </application>
+                    </applications>
+                </item>
+                <item>
+                    <name>RDS::SwapUsage</name>
+                    <type>TRAP</type>
+                    <key>RDS.SwapUsage.Average</key>
+                    <delay>0</delay>
+                    <history>15d</history>
+                    <value_type>FLOAT</value_type>
+                    <units>B</units>
+                    <description>The amount of swap space used on the DB Instance.</description>
+                    <applications>
+                        <application>
+                            <name>RDS</name>
+                        </application>
+                    </applications>
+                </item>
+                <item>
+                    <name>RDS::WriteIOPS</name>
+                    <type>TRAP</type>
+                    <key>RDS.WriteIOPS.Average</key>
+                    <delay>0</delay>
+                    <history>15d</history>
+                    <value_type>FLOAT</value_type>
+                    <units>ops/s</units>
+                    <description>The average number of disk I/O operations per second.</description>
+                    <applications>
+                        <application>
+                            <name>RDS</name>
+                        </application>
+                    </applications>
+                </item>
+                <item>
+                    <name>RDS::WriteLatency</name>
+                    <type>TRAP</type>
+                    <key>RDS.WriteLatency.Average</key>
+                    <delay>0</delay>
+                    <history>15d</history>
+                    <value_type>FLOAT</value_type>
+                    <units>s</units>
+                    <description>The average amount of time taken per disk I/O operation.</description>
+                    <applications>
+                        <application>
+                            <name>RDS</name>
+                        </application>
+                    </applications>
+                    <triggers>
+                        <trigger>
+                            <expression>{last()}&gt;{$TH_P2_LATENCY}</expression>
+                            <name>RDS::High Write Latency (LV={ITEM.VALUE})</name>
+                            <priority>HIGH</priority>
+                        </trigger>
+                        <trigger>
+                            <expression>{last()}&gt;{$TH_P3_LATENCY} and {last()}&lt;{$TH_P2_LATENCY}</expression>
+                            <name>RDS::High Write Latency (LV={ITEM.VALUE})</name>
+                            <priority>AVERAGE</priority>
+                        </trigger>
+                    </triggers>
+                </item>
+                <item>
+                    <name>RDS::WriteThroughput</name>
+                    <type>TRAP</type>
+                    <key>RDS.WriteThroughput.Average</key>
+                    <delay>0</delay>
+                    <history>15d</history>
+                    <value_type>FLOAT</value_type>
+                    <units>B/s</units>
+                    <description>The average number of bytes written to disk per second.</description>
+                    <applications>
+                        <application>
+                            <name>RDS</name>
+                        </application>
+                    </applications>
+                </item>
+            </items>
+            <macros>
+                <macro>
+                    <macro>{$TH_P2_FREE_STORAGE}</macro>
+                    <value>1G</value>
+                </macro>
+                <macro>
+                    <macro>{$TH_P2_LATENCY}</macro>
+                    <value>0.2</value>
+                </macro>
+                <macro>
+                    <macro>{$TH_P3_CPU_USAGE}</macro>
+                    <value>90</value>
+                </macro>
+                <macro>
+                    <macro>{$TH_P3_FREE_STORAGE}</macro>
+                    <value>2G</value>
+                </macro>
+                <macro>
+                    <macro>{$TH_P3_LATENCY}</macro>
+                    <value>0.1</value>
+                </macro>
+                <macro>
+                    <macro>{$TH_P4_CPU_USAGE}</macro>
+                    <value>85</value>
+                </macro>
+            </macros>
+            <screens>
+                <screen>
+                    <name>RDS::Statistics</name>
+                    <hsize>2</hsize>
+                    <vsize>3</vsize>
+                    <screen_items>
+                        <screen_item>
+                            <resourcetype>0</resourcetype>
+                            <style>0</style>
+                            <resource>
+                                <name>RDS::DB Connections</name>
+                                <host>Template AWS RDS</host>
+                            </resource>
+                            <width>500</width>
+                            <height>100</height>
+                            <x>0</x>
+                            <y>0</y>
+                            <colspan>1</colspan>
+                            <rowspan>1</rowspan>
+                            <elements>0</elements>
+                            <valign>1</valign>
+                            <halign>2</halign>
+                            <dynamic>0</dynamic>
+                            <sort_triggers>0</sort_triggers>
+                            <url/>
+                            <application/>
+                            <max_columns>3</max_columns>
+                        </screen_item>
+                        <screen_item>
+                            <resourcetype>0</resourcetype>
+                            <style>0</style>
+                            <resource>
+                                <name>RDS::Latency</name>
+                                <host>Template AWS RDS</host>
+                            </resource>
+                            <width>500</width>
+                            <height>100</height>
+                            <x>1</x>
+                            <y>0</y>
+                            <colspan>1</colspan>
+                            <rowspan>1</rowspan>
+                            <elements>0</elements>
+                            <valign>1</valign>
+                            <halign>1</halign>
+                            <dynamic>0</dynamic>
+                            <sort_triggers>0</sort_triggers>
+                            <url/>
+                            <application/>
+                            <max_columns>3</max_columns>
+                        </screen_item>
+                        <screen_item>
+                            <resourcetype>0</resourcetype>
+                            <style>0</style>
+                            <resource>
+                                <name>RDS::Storage Stats</name>
+                                <host>Template AWS RDS</host>
+                            </resource>
+                            <width>500</width>
+                            <height>100</height>
+                            <x>0</x>
+                            <y>1</y>
+                            <colspan>1</colspan>
+                            <rowspan>1</rowspan>
+                            <elements>0</elements>
+                            <valign>1</valign>
+                            <halign>2</halign>
+                            <dynamic>0</dynamic>
+                            <sort_triggers>0</sort_triggers>
+                            <url/>
+                            <application/>
+                            <max_columns>3</max_columns>
+                        </screen_item>
+                        <screen_item>
+                            <resourcetype>0</resourcetype>
+                            <style>0</style>
+                            <resource>
+                                <name>RDS::System Stats</name>
+                                <host>Template AWS RDS</host>
+                            </resource>
+                            <width>500</width>
+                            <height>100</height>
+                            <x>1</x>
+                            <y>1</y>
+                            <colspan>1</colspan>
+                            <rowspan>1</rowspan>
+                            <elements>0</elements>
+                            <valign>1</valign>
+                            <halign>1</halign>
+                            <dynamic>0</dynamic>
+                            <sort_triggers>0</sort_triggers>
+                            <url/>
+                            <application/>
+                            <max_columns>3</max_columns>
+                        </screen_item>
+                        <screen_item>
+                            <resourcetype>0</resourcetype>
+                            <style>0</style>
+                            <resource>
+                                <name>RDS::Network Stats</name>
+                                <host>Template AWS RDS</host>
+                            </resource>
+                            <width>500</width>
+                            <height>100</height>
+                            <x>0</x>
+                            <y>2</y>
+                            <colspan>1</colspan>
+                            <rowspan>1</rowspan>
+                            <elements>0</elements>
+                            <valign>1</valign>
+                            <halign>2</halign>
+                            <dynamic>0</dynamic>
+                            <sort_triggers>0</sort_triggers>
+                            <url/>
+                            <application/>
+                            <max_columns>3</max_columns>
+                        </screen_item>
+                        <screen_item>
+                            <resourcetype>0</resourcetype>
+                            <style>0</style>
+                            <resource>
+                                <name>RDS::IO Stats</name>
+                                <host>Template AWS RDS</host>
+                            </resource>
+                            <width>500</width>
+                            <height>100</height>
+                            <x>1</x>
+                            <y>2</y>
+                            <colspan>1</colspan>
+                            <rowspan>1</rowspan>
+                            <elements>0</elements>
+                            <valign>1</valign>
+                            <halign>1</halign>
+                            <dynamic>0</dynamic>
+                            <sort_triggers>0</sort_triggers>
+                            <url/>
+                            <application/>
+                            <max_columns>3</max_columns>
+                        </screen_item>
+                    </screen_items>
+                </screen>
+            </screens>
+        </template>
+    </templates>
+    <graphs>
+        <graph>
+            <name>RDS::DB Connections</name>
+            <width>800</width>
+            <ymin_type_1>FIXED</ymin_type_1>
+            <graph_items>
+                <graph_item>
+                    <drawtype>GRADIENT_LINE</drawtype>
+                    <color>00C800</color>
+                    <yaxisside>RIGHT</yaxisside>
+                    <calc_fnc>ALL</calc_fnc>
+                    <item>
+                        <host>Template AWS RDS</host>
+                        <key>RDS.DatabaseConnections.Average</key>
+                    </item>
+                </graph_item>
+            </graph_items>
+        </graph>
+        <graph>
+            <name>RDS::IO Stats</name>
+            <width>800</width>
+            <ymin_type_1>FIXED</ymin_type_1>
+            <graph_items>
+                <graph_item>
+                    <drawtype>GRADIENT_LINE</drawtype>
+                    <color>00CC00</color>
+                    <yaxisside>RIGHT</yaxisside>
+                    <calc_fnc>ALL</calc_fnc>
+                    <item>
+                        <host>Template AWS RDS</host>
+                        <key>RDS.ReadIOPS.Average</key>
+                    </item>
+                </graph_item>
+                <graph_item>
+                    <sortorder>1</sortorder>
+                    <drawtype>GRADIENT_LINE</drawtype>
+                    <color>DDDD00</color>
+                    <yaxisside>RIGHT</yaxisside>
+                    <calc_fnc>ALL</calc_fnc>
+                    <item>
+                        <host>Template AWS RDS</host>
+                        <key>RDS.WriteIOPS.Average</key>
+                    </item>
+                </graph_item>
+                <graph_item>
+                    <sortorder>2</sortorder>
+                    <color>CC0000</color>
+                    <calc_fnc>ALL</calc_fnc>
+                    <item>
+                        <host>Template AWS RDS</host>
+                        <key>RDS.DiskQueueDepth.Average</key>
+                    </item>
+                </graph_item>
+            </graph_items>
+        </graph>
+        <graph>
+            <name>RDS::Latency</name>
+            <width>800</width>
+            <ymin_type_1>FIXED</ymin_type_1>
+            <graph_items>
+                <graph_item>
+                    <drawtype>GRADIENT_LINE</drawtype>
+                    <color>00CC00</color>
+                    <yaxisside>RIGHT</yaxisside>
+                    <calc_fnc>ALL</calc_fnc>
+                    <item>
+                        <host>Template AWS RDS</host>
+                        <key>RDS.ReadThroughput.Average</key>
+                    </item>
+                </graph_item>
+                <graph_item>
+                    <sortorder>1</sortorder>
+                    <drawtype>GRADIENT_LINE</drawtype>
+                    <color>DDDD00</color>
+                    <yaxisside>RIGHT</yaxisside>
+                    <calc_fnc>ALL</calc_fnc>
+                    <item>
+                        <host>Template AWS RDS</host>
+                        <key>RDS.WriteThroughput.Average</key>
+                    </item>
+                </graph_item>
+                <graph_item>
+                    <sortorder>2</sortorder>
+                    <color>0000DD</color>
+                    <calc_fnc>ALL</calc_fnc>
+                    <item>
+                        <host>Template AWS RDS</host>
+                        <key>RDS.ReadLatency.Average</key>
+                    </item>
+                </graph_item>
+                <graph_item>
+                    <sortorder>3</sortorder>
+                    <color>DD0000</color>
+                    <calc_fnc>ALL</calc_fnc>
+                    <item>
+                        <host>Template AWS RDS</host>
+                        <key>RDS.WriteLatency.Average</key>
+                    </item>
+                </graph_item>
+            </graph_items>
+        </graph>
+        <graph>
+            <name>RDS::Network Stats</name>
+            <width>800</width>
+            <ymin_type_1>FIXED</ymin_type_1>
+            <graph_items>
+                <graph_item>
+                    <drawtype>GRADIENT_LINE</drawtype>
+                    <color>0000DD</color>
+                    <yaxisside>RIGHT</yaxisside>
+                    <calc_fnc>ALL</calc_fnc>
+                    <item>
+                        <host>Template AWS RDS</host>
+                        <key>RDS.NetworkReceiveThroughput.Average</key>
+                    </item>
+                </graph_item>
+                <graph_item>
+                    <sortorder>1</sortorder>
+                    <drawtype>GRADIENT_LINE</drawtype>
+                    <color>00CC00</color>
+                    <yaxisside>RIGHT</yaxisside>
+                    <calc_fnc>ALL</calc_fnc>
+                    <item>
+                        <host>Template AWS RDS</host>
+                        <key>RDS.NetworkTransmitThroughput.Average</key>
+                    </item>
+                </graph_item>
+            </graph_items>
+        </graph>
+        <graph>
+            <name>RDS::Storage Stats</name>
+            <width>800</width>
+            <ymin_type_1>FIXED</ymin_type_1>
+            <graph_items>
+                <graph_item>
+                    <drawtype>GRADIENT_LINE</drawtype>
+                    <color>0000DD</color>
+                    <yaxisside>RIGHT</yaxisside>
+                    <calc_fnc>ALL</calc_fnc>
+                    <item>
+                        <host>Template AWS RDS</host>
+                        <key>RDS.BinLogDiskUsage.Average</key>
+                    </item>
+                </graph_item>
+                <graph_item>
+                    <sortorder>1</sortorder>
+                    <drawtype>GRADIENT_LINE</drawtype>
+                    <color>00CC00</color>
+                    <yaxisside>RIGHT</yaxisside>
+                    <calc_fnc>ALL</calc_fnc>
+                    <item>
+                        <host>Template AWS RDS</host>
+                        <key>RDS.FreeStorageSpace.Minimum</key>
+                    </item>
+                </graph_item>
+            </graph_items>
+        </graph>
+        <graph>
+            <name>RDS::System Stats</name>
+            <width>800</width>
+            <ymin_type_1>FIXED</ymin_type_1>
+            <graph_items>
+                <graph_item>
+                    <drawtype>GRADIENT_LINE</drawtype>
+                    <color>0000EE</color>
+                    <yaxisside>RIGHT</yaxisside>
+                    <calc_fnc>ALL</calc_fnc>
+                    <item>
+                        <host>Template AWS RDS</host>
+                        <key>RDS.SwapUsage.Average</key>
+                    </item>
+                </graph_item>
+                <graph_item>
+                    <sortorder>1</sortorder>
+                    <drawtype>GRADIENT_LINE</drawtype>
+                    <color>00C800</color>
+                    <yaxisside>RIGHT</yaxisside>
+                    <calc_fnc>ALL</calc_fnc>
+                    <item>
+                        <host>Template AWS RDS</host>
+                        <key>RDS.FreeableMemory.Minimum</key>
+                    </item>
+                </graph_item>
+                <graph_item>
+                    <sortorder>2</sortorder>
+                    <drawtype>BOLD_LINE</drawtype>
+                    <color>EE0000</color>
+                    <calc_fnc>ALL</calc_fnc>
+                    <item>
+                        <host>Template AWS RDS</host>
+                        <key>RDS.CPUUtilization.Average</key>
+                    </item>
+                </graph_item>
+                <graph_item>
+                    <sortorder>3</sortorder>
+                    <color>A54F10</color>
+                    <item>
+                        <host>Template AWS RDS</host>
+                        <key>RDS.CPUCreditBalance.Minimum</key>
+                    </item>
+                </graph_item>
+                <graph_item>
+                    <sortorder>4</sortorder>
+                    <color>FC6EA3</color>
+                    <item>
+                        <host>Template AWS RDS</host>
+                        <key>RDS.CPUCreditUsage.Minimum</key>
+                    </item>
+                </graph_item>
+            </graph_items>
+        </graph>
+    </graphs>
+</zabbix_export>

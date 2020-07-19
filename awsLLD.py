@@ -138,6 +138,38 @@ def getDynamoDBTables(a, r, c):
     print(json.dumps(llddata, indent=4))
 
 
+def getRDSDatabase(a, r, c):
+    account = a
+    aws_account = awsAccount(account)
+    aws_access_key_id = aws_account._aws_access_key_id
+    aws_secret_access_key = aws_account._aws_secret_access_key
+    aws_region = r
+    component = c
+
+    # Init LLD Data
+    lldlist = []
+    llddata = {"data":lldlist}
+    # Connect to RDSDatabase service
+    conn = awsConnection()
+    conn.rdsConnect(aws_region, aws_access_key_id, aws_secret_access_key)
+    rds_db_conn = conn._aws_connection
+    db_instance = rds_db_conn.get_all_dbinstances()
+
+    # Add Zabbix LLD Macros into LLD data
+    for x in db_instance:
+        dict = {}
+        # Get aws account
+        dict["{#AWS_ACCOUNT}"] = a
+        # Get aws region
+        dict["{#AWS_REGION}"] = r
+        # Get table name
+        dict["{#TABLE_NAME}"] = str(x)
+        lldlist.append(dict)
+
+    # Print LLD data in json format
+    print(json.dumps(llddata, indent=4))
+
+
 def getSNSTopics(a, r, c):
     account = a
     aws_account = awsAccount(account)
@@ -213,6 +245,7 @@ if __name__ == '__main__':
         getDynamoDBTables(account, region, component)
     elif query == 'SNSTopics':
         getSNSTopics(account, region, component)
+    elif query == 'RDSDB':
+        getRDSDatabase(account, region, component)
     else:
         print('Unknown Query')
-
