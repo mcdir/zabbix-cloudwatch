@@ -12,7 +12,7 @@ pip3 install -r requirements.txt
 pip install -r requirements2.txt 
 ```
    
-Clone this repo to /opt/zabbix
+Clone this repo to /opt/zabbix-extention
 ```
 git clone https://github.com/omni-lchen/zabbix-cloudwatch.git cloudwatch
 ```
