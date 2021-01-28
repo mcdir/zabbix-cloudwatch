@@ -4,7 +4,7 @@
 # Author:               Long Chen
 # Description:          AWS discovery bash wrapper used in zabbix discovery rule as external script
 
-LLDCMD=/opt/zabbix/cloudwatch/awsLLD.py
+LLDCMD=/opt/zabbix-extention/cloudwatch/awsLLD.py
 ACCOUNT=$1
 REGION=$2
 QUERY=$3

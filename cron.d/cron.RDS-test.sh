@@ -4,8 +4,10 @@
 # Author: Long Chen
 # Description: A script to bulk send RDS cloudwatch data to zabbix server
 
+# /cron.RDS-test.sh "test-database" "test-profile" "eu-west-1"
+
 LIB_PATH=$(cd ../ && pwd)
-PATH=$PATH:/opt/zabbix/cloudwatch:${LIB_PATH}
+PATH=$PATH:/opt/zabbix-extention/cloudwatch:${LIB_PATH}
 export PATH
 
 # DB instance indentifier

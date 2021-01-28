@@ -5,7 +5,7 @@
 # Description: A script to bulk send ELB cloudwatch data to zabbix server
 
 LIB_PATH=$(cd ../ && pwd)
-PATH=$PATH:/opt/zabbix/cloudwatch:${LIB_PATH}
+PATH=$PATH:/opt/zabbix-extention/cloudwatch:${LIB_PATH}
 export PATH
 
 # Load Balancer Name

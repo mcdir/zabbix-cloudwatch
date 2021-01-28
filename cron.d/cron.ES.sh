@@ -4,7 +4,7 @@
 # Author: Long Chen
 # Description: A script to bulk send ECS cloudwatch data to zabbix server
 
-PATH=$PATH:/opt/zabbix/cloudwatch/
+PATH=$PATH:/opt/zabbix-extention/cloudwatch/
 export PATH
 
 # Client Id
