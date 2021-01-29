@@ -9,6 +9,10 @@
 PATH=$PATH:/opt/zabbix-extention/cloudwatch
 export PATH
 
+if [ -f /opt/zabbix-extention/cloudwatch/.venv/bin/activate ]; then
+    source "/opt/zabbix-extention/cloudwatch/.venv/bin/activate"
+fi
+
 # Prefix component name used for SNS topics discovery
 COMPONENT=$1
 # Zabbix Host

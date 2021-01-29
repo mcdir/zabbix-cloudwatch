@@ -3,6 +3,10 @@
 PATH=$PATH:/opt/zabbix-cloudwatch
 export PATH
 
+if [ -f /opt/zabbix-extention/cloudwatch/.venv/bin/activate ]; then
+    source "/opt/zabbix-extention/cloudwatch/.venv/bin/activate"
+fi
+
 # Load Balancer Name
 EMR_CLUSTER_NAME=$1
 # Zabbix Host

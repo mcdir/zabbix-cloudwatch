@@ -7,6 +7,10 @@
 PATH=$PATH:/opt/zabbix-extention/cloudwatch
 export PATH
 
+if [ -f /opt/zabbix-extention/cloudwatch/.venv/bin/activate ]; then
+    source "/opt/zabbix-extention/cloudwatch/.venv/bin/activate"
+fi
+
 # Lambda function name
 LAMBDA_FUNCTION=$1
 # Zabbix Host

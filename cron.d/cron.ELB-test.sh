@@ -8,6 +8,10 @@ LIB_PATH=$(cd ../ && pwd)
 PATH=$PATH:/opt/zabbix-extention/cloudwatch:${LIB_PATH}
 export PATH
 
+if [ -f /opt/zabbix-extention/cloudwatch/.venv/bin/activate ]; then
+    source "/opt/zabbix-extention/cloudwatch/.venv/bin/activate"
+fi
+
 # Load Balancer Name
 LOAD_BALANCER=$1
 # AWS Account
