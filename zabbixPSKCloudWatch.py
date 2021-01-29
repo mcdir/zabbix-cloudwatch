@@ -19,7 +19,7 @@ from operator import itemgetter
 from awsAccount import awsAccount
 from awsConnection import awsConnection
 from boto.exception import BotoServerError
-from pyZabbixSender import pyZabbixSender
+from pyzabbix import ZabbixMetric, ZabbixSender
 
 # aws services metrics configuration file
 base_path = os.path.dirname(os.path.realpath(__file__))
@@ -131,7 +131,7 @@ def getCloudWatchDynamodbData(a, r, s, t, i=None):
                     results = cw.get_metric_statistics(period, start_time, end_time, metric_name, namespace, statistics, dimensions)
                     metric_results = {}
                     # Generate a zabbix trapper key for a metric
-                    zabbix_key = 'DynamoDB.' +  metric_name + '.' + statistics + '["' + account + '","' + aws_region + '","' + table_name + '","' + global_index + '"]'
+                    zabbix_key = 'DynamoDB.' + metric_name + '.' + statistics + '["' + account + '","' + aws_region + '","' + table_name + '","' + global_index + '"]'
                     metric_results['zabbix_key'] = zabbix_key
                     metric_results['cloud_watch_results'] = results
                     metric_results['statistics'] = statistics
@@ -142,7 +142,7 @@ def getCloudWatchDynamodbData(a, r, s, t, i=None):
                 results = cw.get_metric_statistics(period, start_time, end_time, metric_name, namespace, statistics, dimensions)
                 metric_results = {}
                 # Generate a zabbix trapper key for a metric
-                zabbix_key = 'DynamoDB.' +  metric_name + '.' + statistics + '["' + account + '","' + aws_region + '","' + table_name + '"]'
+                zabbix_key = 'DynamoDB.' + metric_name + '.' + statistics + '["' + account + '","' + aws_region + '","' + table_name + '"]'
                 metric_results['zabbix_key'] = zabbix_key
                 metric_results['cloud_watch_results'] = results
                 metric_results['statistics'] = statistics
@@ -191,12 +191,12 @@ def getCloudWatchData(a, r, s, d):
             # Generate a zabbix trapper key for a metric
             if aws_service == 'SQS':
                 queue_name = dimensions['QueueName']
-                zabbix_key =  aws_service + '.' + metric_name + '.' + statistics + '["' + account + '","' + aws_region + '","' + queue_name + '"]'
+                zabbix_key = aws_service + '.' + metric_name + '.' + statistics + '["' + account + '","' + aws_region + '","' + queue_name + '"]'
             elif aws_service == 'SNS':
                 topic_name = dimensions['TopicName']
-                zabbix_key =  aws_service + '.' + metric_name + '.' + statistics + '["' + account + '","' + aws_region + '","' + topic_name + '"]'
+                zabbix_key = aws_service + '.' + metric_name + '.' + statistics + '["' + account + '","' + aws_region + '","' + topic_name + '"]'
             else:
-                zabbix_key =  aws_service + '.' + metric_name + '.' + statistics
+                zabbix_key = aws_service + '.' + metric_name + '.' + statistics
 
             metric_results['zabbix_key'] = zabbix_key
             metric_results['cloud_watch_results'] = results
@@ -217,7 +217,12 @@ def sendLatestCloudWatchData(z, h, d):
 
     global start_time
 
-    zabbix_sender = pyZabbixSender(server=zabbix_server, port=10051)
+    # zabbix_sender = pyZabbixSender(server=zabbix_server, port=10051)
+    zabbix_sender = ZabbixSender(
+        zabbix_server=zabbix_server,
+        use_config="/etc/zabbix/zabbix_agent2.conf"
+    )
+    packet = []
     for cwdata in cloud_watch_data:
         zabbix_key = cwdata['zabbix_key']
         results = cwdata['cloud_watch_results']
@@ -229,19 +234,21 @@ def sendLatestCloudWatchData(z, h, d):
             # Get the latest data and timestamp
             zabbix_key_value = sorts[0][statistics]
             zabbix_key_timestamp = int(time.mktime(utcToLocaltimestamp(sorts[0]['Timestamp']).timetuple()))
-            # Add data to zabbix sender
-            zabbix_sender.addData(zabbix_host, zabbix_key, zabbix_key_value, zabbix_key_timestamp)
         else:  # No data found within the time window
             # Set the zabbix key value to 0
             zabbix_key_value = 0
             # Set the zabbix key timestamp as the start time for getting cloudwatch data
             zabbix_key_timestamp = int(time.mktime(utcToLocaltimestamp(start_time).timetuple()))
-            # Add data to zabbix sender
-            zabbix_sender.addData(zabbix_host, zabbix_key, zabbix_key_value, zabbix_key_timestamp)
+
+        # Add data to zabbix sender
+        packet.append(
+            ZabbixMetric(zabbix_host, zabbix_key, zabbix_key_value, zabbix_key_timestamp),
+        )
 
     # Send data to zabbix server
-    #zabbix_sender.printData()
-    zabbix_sender.sendData()
+    # zabbix_sender.printData()
+    result = zabbix_sender.send(packet)
+
 
 # Send all cloudwatch data to zabbix server
 # init log file first by using this function "initCloudWatchLog"
@@ -258,7 +265,13 @@ def sendAllCloudWatchData(z, h, d, l):
     # Open cloudwatch log file for appending
     file = open(cw_log, 'a')
 
-    zabbix_sender = pyZabbixSender(server=zabbix_server, port=10051)
+    #zabbix_sender = pyZabbixSender(server=zabbix_server, port=10051)
+    zabbix_sender = ZabbixSender(
+        zabbix_server=zabbix_server,
+        use_config="/etc/zabbix/zabbix_agent2.conf"
+    )
+
+    packet = []
     for cwdata in cloud_watch_data:
         zabbix_key = cwdata['zabbix_key']
         results = cwdata['cloud_watch_results']
@@ -284,7 +297,9 @@ def sendAllCloudWatchData(z, h, d, l):
                 # If data not found in the cloudwatch log, then add new data
                 if cw_data_found == 0:
                     # Add data to zabbix sender
-                    zabbix_sender.addData(zabbix_host, zabbix_key, zabbix_key_value, zabbix_key_timestamp)
+                    packet.append(
+                        ZabbixMetric(zabbix_host, zabbix_key, zabbix_key_value, zabbix_key_timestamp),
+                    )
                     # Write cloudwatch data to the log file
                     file.write(cw_data + '\n')
 
@@ -307,13 +322,15 @@ def sendAllCloudWatchData(z, h, d, l):
             # If data not found in the cloudwatch log, then add new data
             if cw_data_found == 0:
                 # Set zabbix trapper key value to 0 if no data found in cloudwatch
-                zabbix_sender.addData(zabbix_host, zabbix_key, zabbix_key_value, zabbix_key_timestamp)
+                packet.append(
+                    ZabbixMetric(zabbix_host, zabbix_key, zabbix_key_value, zabbix_key_timestamp),
+                )
                 # Write cloudwatch data to the log file
                 file.write(cw_data + '\n')
 
     # Send data to zabbix server
-    #zabbix_sender.printData()
-    send_results = zabbix_sender.sendData()
+    # zabbix_sender.printData()
+    send_results = zabbix_sender.send(packet)
     file.write(str(send_results) + '\n')
     # Close cloudwatch log file
     file.close()
@@ -355,7 +372,7 @@ if __name__ == '__main__':
     # Read options from parser
     (options, args) = parser.parse_args()
     zabbix_server = options.zabbixserver
-    zabbix_host =  options.zabbixhost
+    zabbix_host = options.zabbixhost
     aws_account = options.accountname
     aws_region = options.region
     aws_service = options.service
@@ -418,6 +435,6 @@ if __name__ == '__main__':
         print(cw_data)
 
     # Send all cloudwatch data in a specified time window with zabbix sender
-    #cw_log = initCloudWatchLog(aws_service, zabbix_host, aws_region)
-    #sendAllCloudWatchData(zabbix_server, zabbix_host, cw_data, cw_log)
-    #purgeOldCloudWatchLog(cw_log, log_buffer)
+    # cw_log = initCloudWatchLog(aws_service, zabbix_host, aws_region)
+    # sendAllCloudWatchData(zabbix_server, zabbix_host, cw_data, cw_log)
+    # purgeOldCloudWatchLog(cw_log, log_buffer)

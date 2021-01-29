@@ -2,4 +2,12 @@ boto==2.49.0
 boto3==1.14.7
 botocore==1.17.7
 configparser==5.0.0
+docutils==0.15.2
+install==1.3.4
+jmespath==0.10.0
+py-zabbix @ git+https://github.com/mcdir/py-zabbix.git@psk
 python-dateutil==2.8.1
+s3transfer==0.3.4
+six==1.15.0
+sslpsk==1.0.0
+urllib3==1.25.11

@@ -25,4 +25,4 @@ ENDTIME=$(date -u "+%F %H:%M:00" -d "5 minutes ago")
 STARTTIME=$(date -u "+%F %H:%M:00" -d "10 minutes ago")
 
 # Send cloudwatch data of a table to Zabbix Server
-zabbixCloudWatch.py -z "$ZABBIX_SERVER" -x "$ZABBIX_HOST" -a "$ACCOUNT" -r "$REGION" -s "RDS" -d "DBInstanceIdentifier=$DB_INSTANCE" -p "$PERIOD" -f "$STARTTIME" -t "$ENDTIME"
+zabbixPSKCloudWatch.py -z "$ZABBIX_SERVER" -x "$ZABBIX_HOST" -a "$ACCOUNT" -r "$REGION" -s "RDS" -d "DBInstanceIdentifier=$DB_INSTANCE" -p "$PERIOD" -f "$STARTTIME" -t "$ENDTIME"
