@@ -248,6 +248,7 @@ def sendLatestCloudWatchData(z, h, d):
     # Send data to zabbix server
     # zabbix_sender.printData()
     result = zabbix_sender.send(packet)
+    print(result)
 
 
 # Send all cloudwatch data to zabbix server
